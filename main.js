@@ -28,7 +28,19 @@ router.afterEach((to, from, next) => {
   window.scrollTo(0, 0);
 });
 
-
+// 数组去重
+function getFilterArray(array) {
+  const res = [];
+  const json = {};
+  for (let i = 0; i < array.length; i++) {
+    const _self = array[i];
+    if (!json[_self]) {
+      res.push(_self);
+      json[_self] = 1;
+    }
+  }
+  return res;
+}
 
 const store = new Vuex.Store({
   state: {
@@ -37,7 +49,16 @@ const store = new Vuex.Store({
     // 购物车数据
     cartList: []
   },
-  getters: {},
+  getters: {
+    brands: state => {
+      const brands = state.productList.map(item => item.brand);
+      return getFilterArray(brands);
+    },
+    colors: state => {
+      const colors = state.productList.map(item => item.color);
+      return getFilterArray(colors);
+    }
+  },
   mutations: {
     // 添加商品列表
     setProductList(state, data) {
