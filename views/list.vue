@@ -62,7 +62,7 @@ export default {
       }
       // 按颜色过滤
       if (this.filterColor !== "") {
-        list = list.filter(item => item.colors === this.filterColor);
+        list = list.filter(item => item.color === this.filterColor);
       }
       // 排序
       if (this.order) {
@@ -82,8 +82,22 @@ export default {
     this.$store.dispatch("getProductList");
   },
   methods: {
-    handleFilterBrand() {},
-    handleFilterColor() {},
+    // 筛选品牌
+    handleFilterBrand(brand) {
+      // 单次点击选中 再次点击取消选中
+      if (this.filterBrand === brand) {
+        this.filterBrand = "";
+      } else {
+        this.filterBrand = brand;
+      }
+    },
+    handleFilterColor(color) {
+      if (this.filterColor === color) {
+        this.filterColor = "";
+      } else {
+        this.filterColor = color;
+      }
+    },
     handleOrderDefault() {
       this.order = "";
     },
