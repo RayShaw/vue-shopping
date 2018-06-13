@@ -63,7 +63,21 @@ const store = new Vuex.Store({
     // 添加商品列表
     setProductList(state, data) {
       state.productList = data
+    },
+    // 添加到购物车
+    addCart(state, id) {
+      // 先判断购物车是否已有 如果由 数量+1
+      const isAdded = state.cartList.find(item => item.id === id);
+      if (isAdded) {
+        isAdded.count++;
+      } else {
+        state.cartList.push({
+          id,
+          count: 1
+        });
+      }
     }
+
   },
   actions: {
     // 请求商品列表
@@ -71,7 +85,7 @@ const store = new Vuex.Store({
       // 真是环境通过Ajax获取 这里用异步模拟
       setTimeout(() => {
         context.commit('setProductList', product_data);
-      }, 500);
+      }, 1000);
     }
 
   }
