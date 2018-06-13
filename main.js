@@ -6,7 +6,6 @@ import App from "./app.vue";
 import "./style.css";
 import product_data from "./product.js"
 
-
 Vue.use(VueRouter);
 Vue.use(Vuex);
 
@@ -76,6 +75,20 @@ const store = new Vuex.Store({
           count: 1
         });
       }
+    },
+    // 修改商品数量
+    editCartCount(state, payload) {
+      const product = state.cartList.find(item => item.id === payload.id);
+      product.count += payload.count;
+    },
+    // 删除商品
+    deleteCart(state, id) {
+      const index = state.cartList.findIndex(item => item.id === id);
+      state.cartList.splice(index, 1);
+    },
+    // 清空购物车
+    emptyCart(state) {
+      state.cartList = [];
     }
 
   },
@@ -86,8 +99,17 @@ const store = new Vuex.Store({
       setTimeout(() => {
         context.commit('setProductList', product_data);
       }, 1000);
+    },
+    // 购买
+    buy(context) {
+      // 真实环境通过Ajax提交购买请求后再清空购物列表 
+      return new Promise(resolve => {
+        setTimeout(() => {
+          context.commit("emptyCart");
+          resolve();
+        }, 1000);
+      });
     }
-
   }
 });
 
